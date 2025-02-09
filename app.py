@@ -87,7 +87,7 @@ if api_key and uploaded_files:
     conversation_rag_chain = get_legal_summary_chain(llm)
 
     # User Input
-    query = st.text_input("📝 Enter case name or query:")
+    query = st.text_input("📝 Enter Case Name:")
 
     if query:
         messages = query
