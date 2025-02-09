@@ -9,6 +9,10 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.schema import HumanMessage, AIMessage
 
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 # Streamlit UI
 st.set_page_config(page_title="Legal Document AI", layout="wide")
 st.title("📜 Legal Document AI Assistant")
