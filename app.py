@@ -48,8 +48,10 @@ if api_key and uploaded_files:
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=300)
     document_chunks = text_splitter.split_documents(docs)
 
+    # Specify a persist directory to store the data
+    persist_directory = "./persist"
     # Store in Vector Database
-    vector_db = Chroma.from_documents(document_chunks, OpenAIEmbeddings())
+    vector_db = Chroma.from_documents(document_chunks, OpenAIEmbeddings(), persist_directory=persist_directory)
 
 
     # Define Retrieval Chain
