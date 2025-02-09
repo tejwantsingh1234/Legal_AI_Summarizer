@@ -8,6 +8,7 @@ from langchain.chains import create_history_aware_retriever, create_retrieval_ch
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.schema import HumanMessage, AIMessage
+from fpdf import FPDF
 
 __import__('pysqlite3')
 import sys
@@ -95,3 +96,25 @@ if api_key and uploaded_files:
 
         st.subheader("📄 Legal Summary:")
         st.write(response_message)
+
+        def generate_pdf(summary_text):
+            pdf = FPDF()
+            pdf.set_auto_page_break(auto=True, margin=15)
+            pdf.add_page()
+            pdf.set_font("Arial", size=12)
+            pdf.multi_cell(0, 10, summary_text)
+            return pdf
+
+
+        # Download button to generate PDF
+        pdf_file = generate_pdf(response_message)
+        pdf_path = "/tmp/legal_summary.pdf"
+        pdf_file.output(pdf_path)
+
+        with open(pdf_path, "rb") as f:
+            st.download_button(
+                label="Download Legal Summary as PDF",
+                data=f,
+                file_name="legal_summary.pdf",
+                mime="application/pdf"
+            )
